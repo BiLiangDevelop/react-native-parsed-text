@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactNative from 'react-native';
 import PropTypes from 'prop-types';
-
 import TextExtraction from './lib/TextExtraction';
 
 const PATTERNS = {
-  url: /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/i,
-  phone: /[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,7}/,
+  url: /(https?:\/\/|www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/,
+  phone: /[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}/,
   email: /\S+@\S+\.\S+/,
 };
 
@@ -29,12 +28,10 @@ class ParsedText extends React.Component {
     parse: PropTypes.arrayOf(
       PropTypes.oneOfType([defaultParseShape, customParseShape]),
     ),
-    childrenProps: PropTypes.shape(ReactNative.Text.propTypes),
   };
 
   static defaultProps = {
     parse: null,
-    childrenProps: {},
   };
 
   setNativeProps(nativeProps) {
@@ -65,7 +62,6 @@ class ParsedText extends React.Component {
       return (
         <ReactNative.Text
           key={`parsedText-${index}`}
-          {...this.props.childrenProps}
           {...props}
         />
       );
@@ -76,8 +72,7 @@ class ParsedText extends React.Component {
     return (
       <ReactNative.Text
         ref={ref => this._root = ref}
-        {...this.props}
-      >
+        {...this.props}>
         {this.getParsedText()}
       </ReactNative.Text>
     );
